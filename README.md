@@ -1,6 +1,6 @@
-# FastAPI Design Patterns Project
+# Design Patterns
 
-Este projeto é um exemplo de aplicação da técnica de Design Patterns usando o framework FastAPI.
+Este projeto é uma API de estudo de design patterns do curso Rabiscando Padrões de Projeto.
 
 ## Executando o Projeto
 
@@ -13,4 +13,5 @@ Este projeto é um exemplo de aplicação da técnica de Design Patterns usando 
    ```
 
 Swagger UI: http://localhost:8000/docs
+
 ReDoc: http://localhost:8000/redoc
