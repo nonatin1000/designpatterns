@@ -25,22 +25,3 @@ class OrderInterface(ABC):
     @abstractmethod
     def name(self) -> str:
         pass
-
-
-# src
-#     behavioral
-#         strategy
-#             interface
-#                 freight_interface.py
-#             service
-#                 freight_common.py
-#                 freight_express.py
-#                 order_eletronic.py
-#                 order_shower.py
-#                 order_interface.py
-#             __init__.py
-#         __init__.py
-# main.py
-# docker-compose.yml
-# Dockefile.yml
-# requirements.txt
