@@ -8,7 +8,7 @@ Este projeto é uma API de estudo de design patterns do curso Rabiscando Padrõe
 - **[Docker](https://www.docker.com/)**: Plataforma para desenvolver, enviar e executar aplicações em containers.
 - **[Docker Compose](https://docs.docker.com/compose/)**: Ferramenta para definir e executar aplicações multi-container Docker.
 - **[Pydantic](https://pydantic-docs.helpmanual.io/)**: Biblioteca para validação de dados e configurações utilizando type hints.
-- **[Python 3.10+](https://www.python.org/)**: Linguagem de programação utilizada no desenvolvimento deste projeto.
+- **[Python 3.11](https://www.python.org/)**: Linguagem de programação utilizada no desenvolvimento deste projeto.
 
 ## Executando o Projeto
 
