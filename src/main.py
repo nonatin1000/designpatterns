@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from behavioral.strategy.main import router as order_router
+from behavioral.template_method.main import router as payment_router
 
 app = FastAPI(
     title="API Design Patterns",
@@ -9,6 +10,7 @@ app = FastAPI(
 
 
 app.include_router(order_router)
+app.include_router(payment_router)
 
 
 @app.get("/", tags=["Health"])
