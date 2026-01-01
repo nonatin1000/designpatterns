@@ -1,7 +1,8 @@
 """Product entity for the sales subsystem.
 
 This module contains the Product class which represents an item
-that can be sold in the e-commerce system.
+that can be sold in the e-commerce system. This is part of the
+subsystem that the Facade pattern simplifies access to.
 """
 
 

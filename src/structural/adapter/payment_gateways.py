@@ -1,21 +1,35 @@
 """Third-party payment gateway implementations (Adaptees).
 
-These are external payment services with their own interfaces.
-They need to be adapted to work with our Gateway interface.
+These are external payment services with their own interfaces that cannot
+be modified. They need to be adapted to work with our Gateway interface
+using adapter classes.
+
+The Adapter pattern allows these incompatible interfaces to work together
+by creating adapter classes that translate between the adaptee's interface
+and our target Gateway interface.
 """
 
 
 class PagFacil:
     """PagFacil payment gateway (Adaptee).
 
+    This is a third-party payment service with a Portuguese interface.
+    It cannot be modified, so it must be adapted using PagFacilAdapter.
+
     Pricing model:
     - Fixed fee: R$ 0.40 per transaction
     - Interest rate: 5% per month per installment
 
-    Best for: Cash payments (1 installment) due to low fixed fee
+    Best for: Cash payments (1 installment) due to low fixed fee.
+
+    Note:
+        This class uses Portuguese method names (define_valor, define_parcelas,
+        etc.) which are incompatible with our Gateway interface. The adapter
+        translates these calls to the standard interface.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize PagFacil gateway with default pricing."""
         self._amount: float = 0.0
         self._installments: int = 1
         self._fixed_fee: float = 0.40
@@ -62,14 +76,23 @@ class PagFacil:
 class TopPagamentos:
     """TopPagamentos payment gateway (Adaptee).
 
+    This is a third-party payment service with a different English interface.
+    It cannot be modified, so it must be adapted using TopPagamentosAdapter.
+
     Pricing model:
     - Fixed fee: R$ 5.00 per transaction
     - Interest rate: 1% per month per installment
 
-    Best for: Installment payments (2+ installments) due to low interest rate
+    Best for: Installment payments (2+ installments) due to low interest rate.
+
+    Note:
+        This class uses different method names (set_value, set_installment_count,
+        etc.) which are incompatible with our Gateway interface. The adapter
+        translates these calls to the standard interface.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize TopPagamentos gateway with default pricing."""
         self._payment_value: float = 0.0
         self._number_of_installments: int = 1
         self._transaction_fee: float = 5.00

@@ -1,23 +1,42 @@
-"""Pydantic schemas for request/response validation in the Adapter pattern API."""
+"""Pydantic schemas for request/response validation in the Adapter pattern API.
+
+This module defines all Pydantic models used for request validation and
+response serialization in the Adapter pattern FastAPI endpoints.
+"""
 
 from pydantic import BaseModel, Field
 from typing import List, Dict
 
 
 class PaymentRequest(BaseModel):
-    """Schema for payment processing request."""
+    """Schema for payment processing request.
+
+    This schema validates the input data when processing a payment.
+    The system will automatically select the most cost-effective gateway
+    based on the number of installments.
+
+    Attributes:
+        amount: Payment amount in BRL (must be greater than 0).
+        installments: Number of monthly installments (1-12, default: 1).
+
+    Example:
+        {
+            "amount": 100.00,
+            "installments": 1
+        }
+    """
 
     amount: float = Field(
         ...,
         gt=0,
-        description="Payment amount in Brazilian Reais (BRL)",
+        description="Payment amount in Brazilian Reais (BRL). Must be greater than 0.",
         example=100.00
     )
     installments: int = Field(
         default=1,
         ge=1,
         le=12,
-        description="Number of monthly installments (1-12)",
+        description="Number of monthly installments (1-12). Default is 1 (cash payment).",
         example=1
     )
 

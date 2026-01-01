@@ -1,12 +1,13 @@
 """Order management for the sales subsystem.
 
 This module contains the Order class which manages customer orders
-and their associated products.
+and their associated products. This is part of the subsystem that
+the Facade pattern simplifies access to.
 """
 
 from typing import List
-from customer import Customer
-from product import Product
+from .customer import Customer
+from .product import Product
 
 
 class Order:

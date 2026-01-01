@@ -1,7 +1,8 @@
 """Customer entity for the sales subsystem.
 
 This module contains the Customer class which represents a customer
-in the e-commerce system.
+in the e-commerce system. This is part of the subsystem that the
+Facade pattern simplifies access to.
 """
 
 

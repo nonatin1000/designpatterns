@@ -1,4 +1,8 @@
-"""Pydantic schemas for request/response validation in the Facade pattern API."""
+"""Pydantic schemas for request/response validation in the Facade pattern API.
+
+This module defines all Pydantic models used for request validation and
+response serialization in the Facade pattern FastAPI endpoints.
+"""
 
 from pydantic import BaseModel, Field, EmailStr
 from typing import List
@@ -6,7 +10,12 @@ from enum import Enum
 
 
 class PaymentMethod(str, Enum):
-    """Enumeration of available payment methods."""
+    """Enumeration of available payment methods.
+
+    The Facade pattern simplifies payment processing by providing
+    a unified interface regardless of the payment method chosen.
+    """
+
     CREDIT_CARD = "credit_card"
     BANK_SLIP = "bank_slip"
 

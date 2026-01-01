@@ -1,22 +1,40 @@
-"""Adapter classes to make third-party gateways compatible with our Gateway interface.
+"""Adapter classes to make third-party gateways compatible with Gateway interface.
 
 These adapters implement the Object Adapter pattern, wrapping the adaptees
 and translating calls to match our standard Gateway interface.
+
+The Adapter pattern allows incompatible interfaces to work together by
+creating a wrapper that translates between the adaptee's interface and
+the target interface expected by the client.
 """
 
-from gateway_interface import Gateway
-from payment_gateways import PagFacil, TopPagamentos
+from .gateway_interface import Gateway
+from .payment_gateways import PagFacil, TopPagamentos
 
 
 class PagFacilAdapter(Gateway):
-    """Adapter for PagFacil payment gateway.
+    """Adapter for PagFacil payment gateway (Object Adapter).
 
-    Adapts the PagFacil interface (Portuguese method names) to our
-    standard Gateway interface (English method names).
+    This adapter wraps a PagFacil instance and translates calls from our
+    standard Gateway interface to PagFacil's Portuguese interface.
+
+    The adapter implements the Object Adapter pattern by composition,
+    maintaining a reference to the adaptee (PagFacil) and delegating
+    calls with appropriate translations.
+
+    Translation mapping:
+    - set_amount() -> define_valor()
+    - set_installments() -> define_parcelas()
+    - process() -> processar_pagamento()
+    - get_total_with_fees() -> calcular_total_com_taxas()
     """
 
-    def __init__(self):
-        """Initialize the adapter with a PagFacil instance."""
+    def __init__(self) -> None:
+        """Initialize the adapter with a PagFacil instance.
+
+        Creates a new PagFacil adaptee instance that will be wrapped
+        by this adapter.
+        """
         self._adaptee = PagFacil()
 
     def set_amount(self, amount: float) -> None:
@@ -53,14 +71,28 @@ class PagFacilAdapter(Gateway):
 
 
 class TopPagamentosAdapter(Gateway):
-    """Adapter for TopPagamentos payment gateway.
+    """Adapter for TopPagamentos payment gateway (Object Adapter).
 
-    Adapts the TopPagamentos interface (different English method names) to our
-    standard Gateway interface.
+    This adapter wraps a TopPagamentos instance and translates calls from our
+    standard Gateway interface to TopPagamentos's different English interface.
+
+    The adapter implements the Object Adapter pattern by composition,
+    maintaining a reference to the adaptee (TopPagamentos) and delegating
+    calls with appropriate translations.
+
+    Translation mapping:
+    - set_amount() -> set_value()
+    - set_installments() -> set_installment_count()
+    - process() -> execute_transaction()
+    - get_total_with_fees() -> calculate_final_amount()
     """
 
-    def __init__(self):
-        """Initialize the adapter with a TopPagamentos instance."""
+    def __init__(self) -> None:
+        """Initialize the adapter with a TopPagamentos instance.
+
+        Creates a new TopPagamentos adaptee instance that will be wrapped
+        by this adapter.
+        """
         self._adaptee = TopPagamentos()
 
     def set_amount(self, amount: float) -> None:

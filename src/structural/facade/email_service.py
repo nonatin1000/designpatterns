@@ -1,10 +1,11 @@
 """Email notification service for the sales subsystem.
 
 This module contains the OrderEmail class which handles sending
-email notifications to customers about their orders.
+email notifications to customers about their orders. This is part
+of the subsystem that the Facade pattern simplifies access to.
 """
 
-from order import Order
+from .order import Order
 
 
 class OrderEmail:

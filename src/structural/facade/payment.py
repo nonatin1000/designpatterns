@@ -1,11 +1,12 @@
 """Payment processing classes for the sales subsystem.
 
 This module contains the abstract Payment class and concrete implementations
-for different payment methods (Credit Card and Bank Slip).
+for different payment methods (Credit Card and Bank Slip). This is part of
+the subsystem that the Facade pattern simplifies access to.
 """
 
 from abc import ABC, abstractmethod
-from order import Order
+from .order import Order
 
 
 class Payment(ABC):
@@ -50,9 +51,13 @@ class Payment(ABC):
         This method must be implemented by concrete payment classes.
 
         Returns:
-            True if payment was successful, False otherwise
+            True if payment was successful, False otherwise.
+
+        Note:
+            In production, this would integrate with payment gateways
+            or bank systems to process actual transactions.
         """
-        pass
+        ...
 
     def get_payment_amount(self) -> float:
         """Get the total amount to be paid.

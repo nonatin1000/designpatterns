@@ -1,22 +1,34 @@
-"""
-Padrão Decorator - Sistema de Pizzaria
+"""Decorator Pattern - Pizzeria System.
 
-O padrão Decorator anexa responsabilidades adicionais a um objeto dinamicamente.
-Os Decorators fornecem uma alternativa flexível ao uso de subclasses para
-extensão de funcionalidades.
+The Decorator pattern attaches additional responsibilities to objects dynamically.
+Decorators provide a flexible alternative to subclassing for extending functionality.
+
+This implementation demonstrates the Decorator pattern using a pizzeria system
+where pizzas can be decorated with toppings at runtime without modifying the
+original pizza classes.
+
+Pattern Structure:
+- Component (Pizza): Base interface for pizzas and decorators
+- ConcreteComponent (ChickenPizza, PepperoniPizza, CheesePizza): Base pizzas
+- Decorator (ToppingDecorator): Abstract base for all toppings
+- ConcreteDecorator (StuffedCrust, WholeWheatCrust): Specific toppings
 """
 
 from .pizza import Pizza
-from .pizzas_concretas import PizzaFrango, PizzaCalabresa, PizzaQueijo
-from .acrescimo_decorator import AcrescimoDecorator
-from .decorators_concretos import BordaRequeijao, MassaIntegral
+from .pizzas_concretas import ChickenPizza, PepperoniPizza, CheesePizza
+from .topping_decorator import ToppingDecorator
+from .concrete_toppings import StuffedCrust, WholeWheatCrust
 
 __all__ = [
+    # Component interface
     "Pizza",
-    "PizzaFrango",
-    "PizzaCalabresa",
-    "PizzaQueijo",
-    "AcrescimoDecorator",
-    "BordaRequeijao",
-    "MassaIntegral",
+    # Concrete components (base pizzas)
+    "ChickenPizza",
+    "PepperoniPizza",
+    "CheesePizza",
+    # Decorator base
+    "ToppingDecorator",
+    # Concrete decorators (toppings)
+    "StuffedCrust",
+    "WholeWheatCrust",
 ]

@@ -7,7 +7,7 @@ import importlib.util
 base_path = Path(__file__).parent
 
 patterns = [
-    ("Decorator", "src/behavioral/decorator/main.py"),
+    ("Decorator", "src/structural/decorator/main.py"),
     ("Observer", "src/behavioral/observer/main.py"),
     ("State", "src/behavioral/state/main.py"),
     ("Adapter", "src/structural/adapter/main.py"),

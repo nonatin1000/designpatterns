@@ -1,24 +1,27 @@
-"""
-Padrão Observer - Sistema de Newsletter
+"""Observer Pattern - Newsletter System.
 
-O Observer é um padrão comportamental que define uma dependência um-para-muitos
-entre objetos, de modo que quando um objeto muda seu estado, todos seus
-dependentes são notificados e atualizados automaticamente.
+The Observer is a behavioral pattern that defines a one-to-many dependency
+between objects, so that when one object changes state, all its dependents
+are notified and updated automatically.
 """
 
-from .observer_interface import Observer
-from .subject_interface import Subject
-from .newsletter import Newsletter
-from .observers import Cliente, Funcionario, Parceiro, Fornecedor
-from .email_service import EmailService
+from .observer import (
+    Observer,
+    BaseSubscriber,
+    ClientSubscriber,
+    EmployeeSubscriber,
+    PartnerSubscriber,
+    SupplierSubscriber
+)
+from .subject import Subject, Newsletter
 
 __all__ = [
     "Observer",
     "Subject",
     "Newsletter",
-    "Cliente",
-    "Funcionario",
-    "Parceiro",
-    "Fornecedor",
-    "EmailService",
+    "BaseSubscriber",
+    "ClientSubscriber",
+    "EmployeeSubscriber",
+    "PartnerSubscriber",
+    "SupplierSubscriber",
 ]

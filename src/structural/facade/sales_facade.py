@@ -3,13 +3,17 @@
 This module contains the SalesFacade class which provides a unified
 and simplified interface to the complex sales subsystem (Order, Payment, Email).
 This is the main implementation of the Facade pattern.
+
+The Facade pattern provides a unified interface to a set of interfaces in a
+subsystem. It defines a higher-level interface that makes the subsystem easier
+to use by hiding its complexity from clients.
 """
 
-from customer import Customer
-from product import Product
-from order import Order
-from payment import CreditCardPayment, BankSlipPayment
-from email_service import OrderEmail
+from .customer import Customer
+from .product import Product
+from .order import Order
+from .payment import CreditCardPayment, BankSlipPayment
+from .email_service import OrderEmail
 
 
 class SalesFacade:

@@ -1,19 +1,41 @@
-"""
-Padrão State - Sistema de Pedidos E-commerce
+"""State pattern - Order management system.
 
-O padrão State permite que um objeto altere seu comportamento quando
-seu estado interno muda. O objeto parecerá ter mudado de classe.
+The State pattern allows an object to alter its behavior when its internal
+state changes. The object will appear to have changed its class.
+
+This module implements the State pattern for an e-commerce order management
+system, where orders can transition between different states:
+- Pending Payment (initial state)
+- Paid
+- Cancelled (terminal state)
+- Shipped (terminal state)
 """
 
-from .state_interface import State
-from .estados import AguardandoPagamentoState, PagoState, CanceladoState, EnviadoState
-from .pedido import Pedido
+from .state import (
+    State,
+    PendingPaymentState,
+    PaidState,
+    CancelledState,
+    ShippedState
+)
+from .order import Order
+from .schemas import (
+    OrderCreate,
+    OrderResponse,
+    TransitionResponse
+)
 
 __all__ = [
+    # State interface and concrete states
     "State",
-    "AguardandoPagamentoState",
-    "PagoState",
-    "CanceladoState",
-    "EnviadoState",
-    "Pedido",
+    "PendingPaymentState",
+    "PaidState",
+    "CancelledState",
+    "ShippedState",
+    # Context class
+    "Order",
+    # Schemas
+    "OrderCreate",
+    "OrderResponse",
+    "TransitionResponse",
 ]
