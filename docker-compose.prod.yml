@@ -3,28 +3,26 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: design_patterns_api
+    container_name: design_patterns_api_prod
     ports:
       - "${PORT:-8000}:8000"
-    volumes:
-      # Monta o código fonte para hot-reload em desenvolvimento
-      - ./src:/src
-      # Evita sobrescrever dependências instaladas no container
-      - /src/__pycache__
     environment:
       - PYTHONUNBUFFERED=1
-      - ENVIRONMENT=development
-    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "/src"]
+      - ENVIRONMENT=production
+    # Sem volumes em produção - código é copiado no build
+    # Sem --reload em produção
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
-    restart: unless-stopped
+    restart: always
     networks:
       - design_patterns_network
 
 networks:
   design_patterns_network:
     driver: bridge
+

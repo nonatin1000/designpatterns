@@ -1,3 +1,11 @@
-fastapi
-uvicorn[standard]
-pydantic[email]
+# Web Framework
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+
+# Data Validation
+pydantic[email]>=2.5.0
+
+# Testing (opcional, mas recomendado)
+pytest>=7.4.3
+pytest-asyncio>=0.21.1
+httpx>=0.25.1
