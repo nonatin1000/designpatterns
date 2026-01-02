@@ -86,7 +86,7 @@ class BaseSubscriber(Observer):
             message: Message received from Subject
         """
         # In a real system, this would send an actual email
-        print(f"📧 Email sent to {self._name} <{self._email}>")
+        print(f"[EMAIL] Email sent to {self._name} <{self._email}>")
         print(f"   Message: {message}")
 
     def get_name(self) -> str:

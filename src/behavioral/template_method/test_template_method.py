@@ -1,7 +1,50 @@
 """Comprehensive tests for Template Method pattern implementation."""
 
-from .payment import Payment, CreditPayment, DebitPayment, CashPayment
-from .gateway import Gateway
+import sys
+from pathlib import Path
+import importlib.util
+
+# Add src directory to path for standalone execution
+if __name__ == "__main__":
+    src_dir = Path(__file__).parent.parent.parent
+    sys.path.insert(0, str(src_dir))
+
+try:
+    # Try relative imports first (when used as module)
+    from .payment import (
+        Payment,
+        CreditPayment,
+        DebitPayment,
+        CashPayment
+    )
+    from .gateway import Gateway
+except ImportError:
+    # Fall back to direct module imports (bypassing __init__.py)
+    # This avoids importing schemas.py which requires pydantic
+    test_dir = Path(__file__).parent
+    
+    # Load payment module directly
+    payment_spec = importlib.util.spec_from_file_location(
+        "payment",
+        test_dir / "payment.py"
+    )
+    payment_module = importlib.util.module_from_spec(payment_spec)
+    payment_spec.loader.exec_module(payment_module)
+    
+    # Load gateway module directly
+    gateway_spec = importlib.util.spec_from_file_location(
+        "gateway",
+        test_dir / "gateway.py"
+    )
+    gateway_module = importlib.util.module_from_spec(gateway_spec)
+    gateway_spec.loader.exec_module(gateway_module)
+    
+    # Extract classes
+    Payment = payment_module.Payment
+    CreditPayment = payment_module.CreditPayment
+    DebitPayment = payment_module.DebitPayment
+    CashPayment = payment_module.CashPayment
+    Gateway = gateway_module.Gateway
 
 
 def test_credit_payment_tax():
@@ -203,6 +246,104 @@ def test_gateway_charge_returns_boolean():
     print("[OK] Test Gateway Charge Returns Boolean: PASSED")
 
 
+def test_gateway_repr():
+    """Test gateway string representation."""
+    gateway = Gateway()
+    repr_str = repr(gateway)
+    assert "Gateway" in repr_str
+    print("[OK] Test Gateway Repr: PASSED")
+
+
+def test_zero_amount_payment():
+    """Test payment with zero amount."""
+    gateway = Gateway()
+    
+    credit = CreditPayment(amount=0.0, gateway=gateway)
+    assert credit.amount == 0.0
+    assert credit.calculate_tax() == 0.0
+    assert credit.calculate_discount() == 0.0
+    
+    debit = DebitPayment(amount=0.0, gateway=gateway)
+    assert debit.calculate_tax() == 4.0  # Fixed tax
+    assert debit.calculate_discount() == 0.0
+    
+    cash = CashPayment(amount=0.0, gateway=gateway)
+    assert cash.calculate_tax() == 0.0
+    assert cash.calculate_discount() == 0.0
+    
+    print("[OK] Test Zero Amount Payment: PASSED")
+
+
+def test_different_amounts_debit():
+    """Test debit payment with various amounts."""
+    gateway = Gateway()
+    
+    test_cases = [
+        (100.0, 4.0, 5.0),    # Fixed tax R$ 4, 5% discount
+        (500.0, 4.0, 25.0),   # Fixed tax R$ 4, 5% discount
+        (1000.0, 4.0, 50.0),  # Fixed tax R$ 4, 5% discount
+    ]
+    
+    for amount, expected_tax, expected_discount in test_cases:
+        payment = DebitPayment(amount=amount, gateway=gateway)
+        assert payment.calculate_tax() == expected_tax
+        assert payment.calculate_discount() == expected_discount
+    
+    print("[OK] Test Different Amounts Debit: PASSED")
+
+
+def test_different_amounts_cash():
+    """Test cash payment with various amounts."""
+    gateway = Gateway()
+    
+    test_cases = [
+        (100.0, 0.0, 10.0),   # No tax, 10% discount
+        (500.0, 0.0, 50.0),   # No tax, 10% discount
+        (1000.0, 0.0, 100.0), # No tax, 10% discount
+    ]
+    
+    for amount, expected_tax, expected_discount in test_cases:
+        payment = CashPayment(amount=amount, gateway=gateway)
+        assert payment.calculate_tax() == expected_tax
+        assert payment.calculate_discount() == expected_discount
+    
+    print("[OK] Test Different Amounts Cash: PASSED")
+
+
+def test_large_amount_payment():
+    """Test payment with very large amount."""
+    gateway = Gateway()
+    large_amount = 1000000.0  # 1 million
+    
+    credit = CreditPayment(amount=large_amount, gateway=gateway)
+    tax = credit.calculate_tax()
+    discount = credit.calculate_discount()
+    
+    assert tax == 50000.0  # 5% of 1 million
+    assert discount == 20000.0  # 2% of 1 million
+    
+    success, final = credit.process_payment()
+    assert isinstance(success, bool)
+    assert final == 1030000.0  # 1M + 50K - 20K
+    
+    print("[OK] Test Large Amount Payment: PASSED")
+
+
+def test_credit_payment_at_threshold():
+    """Test credit payment exactly at discount threshold."""
+    gateway = Gateway()
+    
+    # Exactly at threshold (R$ 300) - should NOT get discount
+    payment = CreditPayment(amount=300.0, gateway=gateway)
+    assert payment.calculate_discount() == 0.0
+    
+    # Just above threshold (R$ 300.01) - should get discount
+    payment2 = CreditPayment(amount=300.01, gateway=gateway)
+    assert payment2.calculate_discount() > 0.0
+    
+    print("[OK] Test Credit Payment At Threshold: PASSED")
+
+
 if __name__ == "__main__":
     print("\n" + "=" * 60)
     print("RUNNING TEMPLATE METHOD PATTERN TESTS")
@@ -226,9 +367,15 @@ if __name__ == "__main__":
         test_payment_constants()
         test_best_payment_option()
         test_gateway_charge_returns_boolean()
+        test_gateway_repr()
+        test_zero_amount_payment()
+        test_different_amounts_debit()
+        test_different_amounts_cash()
+        test_large_amount_payment()
+        test_credit_payment_at_threshold()
 
         print("\n" + "=" * 60)
-        print("ALL TESTS PASSED! ✓")
+        print("ALL TESTS PASSED! [OK]")
         print("=" * 60 + "\n")
 
     except AssertionError as e:

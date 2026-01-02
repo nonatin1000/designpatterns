@@ -77,7 +77,7 @@ class Newsletter(Subject):
         if observer not in self._observers:
             self._observers.append(observer)
         else:
-            print(f"⚠️  {observer.get_name()} is already subscribed")
+            print(f"[WARNING] {observer.get_name()} is already subscribed")
 
     def remove_observer(self, observer: "Observer") -> None:
         """Remove an observer from the notification list.
@@ -88,7 +88,7 @@ class Newsletter(Subject):
         if observer in self._observers:
             self._observers.remove(observer)
         else:
-            print(f"⚠️  {observer.get_name()} is not subscribed")
+            print(f"[WARNING] {observer.get_name()} is not subscribed")
 
     def notify_observers(self) -> None:
         """Notify all observers about the latest newsletter message.

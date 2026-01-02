@@ -257,20 +257,20 @@ class Order:
 
         Returns:
             A dictionary containing:
-            - id: Order ID (int)
+            - order_id: Order ID (int)
             - items: List of item names (List[str])
             - total_amount: Total value in BRL (float)
-            - current_state: Current state name (str)
+            - state: Current state name (str)
             - created_at: Creation timestamp (str)
-            - history: State transition history (List[str])
+            - state_history: State transition history (List[str])
         """
         return {
-            "id": self.order_id,
+            "order_id": self.order_id,
             "items": self.items,
             "total_amount": self.total_amount,
-            "current_state": self.get_state_name(),
+            "state": self.get_state_name(),
             "created_at": self.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-            "history": self.state_history
+            "state_history": self.state_history
         }
 
     def __str__(self) -> str:
